@@ -1,0 +1,192 @@
+1. Dashboard
+2. Employee Management
+    2.1 Employee List
+    2.2 Employee Attendance
+    2.3 Employee Leave
+3. Payroll Management
+    3.1 Generate Payroll
+    3.2 Payroll Reports
+    3.3 Overtime & Bonus Management
+4. Leave Management
+    4.1 Leave Types
+    4.2 Leave Approval
+    4.3 Leave Calendar
+5. Reports
+    5.1 Employee Reports
+    5.2 Payroll Reports
+    5.3 Tax Reports
+    5.4 Leave Reports
+6. Settings
+    6.1 System Settings
+    6.2 User Management
+    6.3 Notifications
+7. Employee Self-Service
+    7.1 View Payslip
+    7.2 View Leave Balance
+    7.3 Apply for Leave
+    7.4 Update Personal Information
+8. Administration
+    8.1 Backup & Restore
+    8.2 Audit Logs
+    8.3 System Health
+9. Help & Support
+    9.1 User Guide
+    9.2 FAQs
+    9.3 Contact Support
+10. Logout
+
+
+//
+"use client"
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from '@/components/ui/command';
+import {
+  LayoutDashboard,
+  Newspaper,
+  Folders,
+  CreditCard,
+  Settings,
+  User,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+
+const itemClass = "hover:bg-primary hover:text-primary-foreground rounded-sm p-1 cursor-pointer";
+
+const Dropdown = ({ title, icon: Icon, items }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDropdown = () => setIsOpen((prev) => !prev);
+
+  return (
+    <>
+      <CommandItem
+        onPointerDown={toggleDropdown}
+        className={itemClass}
+      >
+        <Icon className="m-2 h-4 w-4" />
+        <span>{title}</span>
+        {isOpen ? (
+          <ChevronUp className="ml-auto h-4 w-4" />
+        ) : (
+          <ChevronDown className="ml-auto h-4 w-4" />
+        )}
+      </CommandItem>
+      {isOpen && (
+        <div className="pl-8">
+          {items.map((item, index) => (
+            <CommandItem key={index}>
+              <Link className='hover:bg-primary hover:text-primary-foreground rounded-sm px-2 py-0.5' href={item.href}>{item.label}</Link>
+            </CommandItem>
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
+
+const Sidebar = () => {
+  const employeeItems = [
+    { label: 'Employee List', href: '#' },
+    { label: 'Employee Attendance', href: '#' },
+    { label: 'Employee Leave', href: '#' },
+  ];
+
+  const payrollItems = [
+    { label: 'Generate Payroll', href: '#' },
+    { label: 'Payroll Reports', href: '#' },
+    { label: 'Overtime & Bonus Management', href: '#' },
+  ];
+
+  const leaveItems = [
+    { label: 'Leave Types', href: '#' },
+    { label: 'Leave Approval', href: '#' },
+    { label: 'Leave Calendar', href: '#' },
+  ];
+
+  const reportsItems = [
+    { label: 'Employee Reports', href: '#' },
+    { label: 'Payroll Reports', href: '#' },
+    { label: 'Tax Reports', href: '#' },
+    { label: 'Leave Reports', href: '#' },
+  ];
+
+  const settingsItems = [
+    { label: 'System Settings', href: '#' },
+    { label: 'User Management', href: '#' },
+    { label: 'Notifications', href: '#' },
+  ];
+
+  const employeeSelfServiceItems = [
+    { label: 'View Payslip', href: '#' },
+    { label: 'View Leave Balance', href: '#' },
+    { label: 'Apply for Leave', href: '#' },
+    { label: 'Update Personal Information', href: '#' },
+  ];
+
+  const administrationItems = [
+    { label: 'Backup & Restore', href: '#' },
+    { label: 'Audit Logs', href: '#' },
+    { label: 'System Health', href: '#' },
+  ];
+
+  const helpSupportItems = [
+    { label: 'User Guide', href: '#' },
+    { label: 'FAQs', href: '#' },
+    { label: 'Contact Support', href: '#' },
+  ];
+
+  return (
+    <Command className="bg-secondary rounded-none">
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Suggestions">
+          <CommandItem className={itemClass}>
+            <LayoutDashboard className="m-2 h-4 w-4" />
+            <Link href="/">Dashboard</Link>
+          </CommandItem>
+          <Dropdown title="Employee Management" icon={Newspaper} items={employeeItems} />
+          <Dropdown title="Payroll Management" icon={Folders} items={payrollItems} />
+          <Dropdown title="Leave Management" icon={Folders} items={leaveItems} />
+          <Dropdown title="Reports" icon={Folders} items={reportsItems} />
+          <Dropdown title="Settings" icon={Folders} items={settingsItems} />
+          <Dropdown title="Employee Self-Service" icon={Folders} items={employeeSelfServiceItems} />
+          <Dropdown title="Administration" icon={Folders} items={administrationItems} />
+          <Dropdown title="Help & Support" icon={Folders} items={helpSupportItems} />
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading="Settings">
+          <CommandItem className={itemClass}>
+            <User className="mr-2 h-4 w-4" />
+            <span>Profile</span>
+            <CommandShortcut>⌘P</CommandShortcut>
+          </CommandItem>
+          <CommandItem className={itemClass}>
+            <CreditCard className="mr-2 h-4 w-4" />
+            <span>Billing</span>
+            <CommandShortcut>⌘B</CommandShortcut>
+          </CommandItem>
+          <CommandItem className={itemClass}>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Settings</span>
+            <CommandShortcut>⌘S</CommandShortcut>
+          </CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  );
+};
+
+export default Sidebar;
+//

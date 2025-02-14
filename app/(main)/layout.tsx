@@ -1,17 +1,36 @@
+"use client";
+
+import { AppSidebar } from '@/components/app-sidebar';
 import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { useState } from 'react';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <>
-      <Navbar />
-      <div className='flex'>
-        <div className='hidden md:block h-[100vh] w-[300px]'>
-          <Sidebar />
-        </div>
-        <div className='p-8 w-full'>{children}</div>
+    <div className="flex flex-col h-screen"> {/* Main container now flex column */}
+      <div className="flex flex-grow"> {/* Container for Sidebar and Content */}
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarInset>
+            <div className="flex items-center gap-2 ">
+
+              <div className="flex-grow flex flex-col"> {/* Content area, flex column */}
+                <Navbar onToggleSidebar={toggleSidebar} sidebarOpen={isSidebarOpen} />
+                <main className="flex-grow p-8 overflow-y-auto">
+                  {children}
+                </main>
+              </div>
+            </div>
+          </SidebarInset>
+        </SidebarProvider >
       </div>
-    </>
+    </div>
   );
 };
 
