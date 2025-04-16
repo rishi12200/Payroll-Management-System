@@ -1,7 +1,7 @@
 import React from "react";
 import { ToastContainer } from "react-toastify"; // Import ToastContainer
 import "react-toastify/dist/ReactToastify.css";  // Import the Toastify CSS
-import { EmployeeForm } from "@/app/(main)/employee/EmployeeForm";
+import { EmployeeForm } from "@/app/(main)/employees/EmployeeForm";
 const App = () => {
   const handleSave = (employeeData: any) => {
     console.log("Saved Employee:", employeeData);
